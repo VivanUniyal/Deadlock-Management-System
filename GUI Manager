@@ -1,0 +1,45 @@
+import tkinter as tk
+from tkinter import messagebox
+
+class GUIManager:
+    def _init_(self, system):
+        self.system = system
+        self.root = tk.Tk()
+        self.root.title("Deadlock Detection System")
+        self.root.geometry("400x300")
+
+        tk.Label(self.root, text="Process (P1, P2, ...):").pack()
+        self.process_entry = tk.Entry(self.root)
+        self.process_entry.pack()
+
+        tk.Label(self.root, text="Resource (R1, R2, ...):").pack()
+        self.resource_entry = tk.Entry(self.root)
+        self.resource_entry.pack()
+
+        tk.Button(self.root, text="Allocate Resource", command=self.allocate_resource).pack(pady=5)
+        tk.Button(self.root, text="Check Deadlock", command=self.check_deadlock).pack(pady=5)
+        tk.Button(self.root, text="Reset", command=self.reset_system).pack(pady=5)
+
+    def allocate_resource(self):
+        process = self.process_entry.get().strip()
+        resource = self.resource_entry.get().strip()
+
+        if process and resource:
+            self.system.allocate_resource(process, resource)
+            messagebox.showinfo("Success", f"Allocated {resource} to {process}")
+        else:
+            messagebox.showerror("Error", "Enter both Process and Resource")
+
+    def check_deadlock(self):
+        deadlock_processes = self.system.check_deadlock()
+        if deadlock_processes:
+            messagebox.showwarning("Deadlock Detected", f"Processes in deadlock: {deadlock_processes}")
+        else:
+            messagebox.showinfo("No Deadlock", "No deadlock detected")
+
+    def reset_system(self):
+        self.system.reset_system()
+        messagebox.showinfo("Reset", "System reset successfully")
+
+    def run(self):
+        self.root.mainloop()
