@@ -1,0 +1,12 @@
+import networkx as nx
+
+class DeadlockDetector:
+    def _init_(self, graph_manager):
+        self.graph_manager = graph_manager
+
+    def detect_deadlock(self):
+        try:
+            cycle = nx.find_cycle(self.graph_manager.graph, orientation="original")
+            return [node for node, _ in cycle]
+        except nx.NetworkXNoCycle:
+            return None
