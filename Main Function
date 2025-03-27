@@ -1,0 +1,25 @@
+from graph_manager import GraphManager
+from deadlock_detector import DeadlockDetector
+from gui_manager import GUIManager
+
+class DeadlockSystem:
+    def _init_(self):
+        self.graph_manager = GraphManager()
+        self.deadlock_detector = DeadlockDetector(self.graph_manager)
+        self.gui_manager = GUIManager(self)
+
+    def allocate_resource(self, process, resource):
+        self.graph_manager.add_edge(process, resource)
+
+    def check_deadlock(self):
+        return self.deadlock_detector.detect_deadlock()
+
+    def reset_system(self):
+        self.graph_manager.reset_graph()
+
+    def run(self):
+        self.gui_manager.run()
+
+if _name_ == "_main_":
+    system = DeadlockSystem()
+    system.run()
