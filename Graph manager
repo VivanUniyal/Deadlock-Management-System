@@ -1,0 +1,11 @@
+import networkx as nx
+
+class GraphManager:
+    def _init_(self):
+        self.graph = nx.DiGraph()  # Directed graph
+
+    def add_edge(self, from_node, to_node):
+        self.graph.add_edge(from_node, to_node)
+
+    def reset_graph(self):
+        self.graph.clear()
